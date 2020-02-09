@@ -127,6 +127,16 @@ bool AlienfxInit(){
     AlienfxNew = true;
     return true;
   }
+  if(FindDevice(0x187c,0x528,AlienfxDeviceName)){
+    #ifdef ALIENFX_DEBUG
+    std::cout << "Opening 17 R3 alienfx device" << std::endl;
+    #endif
+    hDeviceHandle = CreateFile(AlienfxDeviceName.c_str(), GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_OVERLAPPED, NULL);
+    if(hDeviceHandle == NULL)
+      return false;
+    AlienfxNew = true;
+    return true;
+  }
   return false;
 }
 
@@ -376,6 +386,15 @@ bool AlienfxInit(){
   if(FindDevice(0x187c,0x521))
   {
     std::cout << "M14x R2 detected" << std::endl;
+
+    AlienfxNew = true;
+
+    return true;
+  }
+
+ if(FindDevice(0x187c,0x528))
+  {
+    std::cout << "17 R3 detected" << std::endl;
 
     AlienfxNew = true;
 
